@@ -4,14 +4,32 @@ import "./App.css";
 
 function App() {
   const api_key = import.meta.env.VITE_WEATHER_API_KEY;
-
-  const api_key2 = "9972daadd2fd4f57825b8f03799d7fb1";
   const [city, setCity] = useState("");
-  const [lat, setLat] = useState("");
-  const [lon, setLon] = useState("");
+
   const [weather, setWeather] = useState([]);
+  const [background, setBackground] = useState("");
 
   const weather_data = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`;
+  useEffect(() => {
+    if (weather && weather.weather && weather.weather.length > 0) {
+      const { main } = weather.weather[0];
+      let weatherBckground = null;
+      switch (main) {
+        case "Clear":
+          weatherBckground = "../src/assets/bckground-clear.jpg";
+          break;
+        case "Clouds":
+          weatherBckground = "../src/assets/cloudy.png";
+          break;
+        case "Rain":
+          weatherBckground = "../src/assets/cloudy.png";
+          break;
+        default:
+          weatherBckground = "../src/assets/cloudy.png";
+      }
+      setBackground(weatherBckground);
+    }
+  }, [weather]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -94,10 +112,16 @@ function App() {
     }
   };
   return (
-    <>
+    <div
+      className="container"
+      style={{
+        backgroundImage: background
+          ? `url(${background})`
+          : `url(../src/assets/bckground-clear.jpg)`,
+      }}>
       <Forms city={city} setCity={setCity} />
       <WeatherData weather={weather} />
-    </>
+    </div>
   );
 }
 

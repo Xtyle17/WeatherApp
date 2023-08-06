@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+#root,
+body {
+  padding: 0;
+  margin: 0;
+}
