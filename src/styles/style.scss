@@ -1,21 +1,22 @@
 @import "../variables/variables.scss";
 @import "../styles/sub-style/forms.css";
+@import "../styles/sub-style/data.css";
 .container {
-  padding-top: 20px;
   width: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
   height: 100vh;
   display: flex;
   align-items: center;
+  flex-direction: column;
+  row-gap: 15px;
 }
 
 #root,
 body {
   padding: 0;
   margin: 0;
+  height: 100vh;
 }
 @media screen and (max-width: 768px) {
   .container {

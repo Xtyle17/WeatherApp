@@ -17,13 +17,22 @@ function App() {
           weatherBckground = "../src/assets/bckground-clear.jpg";
           break;
         case "Clouds":
-          weatherBckground = "../src/assets/cloudy.png";
+          weatherBckground = "../src/assets/cloud.jpg";
           break;
         case "Rain":
           weatherBckground = "../src/assets/rainy-bkgrnd.jpg";
           break;
+        case "Haze":
+          weatherBckground = "../src/assets/cloud.jpg";
+          break;
+        case "Thunderstorm":
+          weatherBckground = "../src/assets/storm.jpg";
+          break;
+        case "Mist":
+          weatherBckground = "../src/assets/mist.jpg";
+          break;
         default:
-          weatherBckground = "../src/assets/cloudy.png";
+          weatherBckground = "../src/assets/bckground-clear.png";
       }
       setBackground(weatherBckground);
     }
@@ -77,23 +86,49 @@ function App() {
       const name = weather.name;
       const { country } = weather.sys;
       const { main } = weather.weather[0];
-      const Temp = (temp - 273.15).toFixed(2);
-      const Tempz = (feels_like - 273.15).toFixed(2);
+      const Temp = Math.round(temp - 273.15);
+      const Tempz = Math.round(feels_like - 273.15);
       let weatherMessage = null;
       let weatherImage = null;
+      let note = null;
+      let note2 = null;
+      let note3 = null;
+      const tempClass = Tempz > 33 ? "temp-hot" : "temp-normal";
+      const tempClass1 = Tempz < 25 ? "temp-cold" : "";
 
       switch (main) {
         case "Clear":
-          weatherMessage = "clear ssky";
+          weatherMessage = "Clear sky";
           weatherImage = "../3032746.png";
+          note = "please stay indoors";
+          note2 = "wear cool clothes";
           break;
         case "Clouds":
-          weatherMessage = "cloudy";
+          weatherMessage = "Cloudy";
           weatherImage = "../src/assets/logo/clouded.png";
+          note2 = "Please bring an umbrella";
+
           break;
         case "Rain":
-          weatherMessage = "rainy";
+          weatherMessage = "Rainy";
           weatherImage = "../src/assets/logo/rain.png";
+          note2 = "Please bring an umbrella or raincoat";
+
+          break;
+        case "Haze":
+          weatherMessage = "Haze";
+          weatherImage = "../src/assets/logo/haze.png";
+          note2 = "please use a cover";
+          break;
+        case "Mist":
+          weatherMessage = "Mist";
+          weatherImage = "../src/assets/logo/mist.png";
+          note3 = "low visibility";
+          break;
+        case "Thunderstorm":
+          weatherMessage = "Thunder Storm";
+          weatherImage = "../src/assets/logo/storm.png";
+          note3 = "avoid going outside";
           break;
         default:
           weatherMessage = "not in the switch-case";
@@ -102,24 +137,36 @@ function App() {
       return (
         <div className="data-wrapper">
           <div className="weather-data">
+            <div className="loc">
+              <p>{name},</p>
+              <p className="country">{country}</p>
+            </div>
             <div className="rw-1">
               <p className="temp">TEMP:{Temp}°C</p>
-              <p className="feels-temp">Feels like:{Tempz}°C</p>
+              <p className={`feels-like ${tempClass} ${tempClass1}`}>
+                Feels like:{Tempz}°C
+              </p>
             </div>
             <div className="rw-2">
-              <p className="humid"> humidity:{humidity}%</p>
-              <p className="w-message">{weatherMessage}</p>
+              <div className="rw-2-child">
+                <img src={weatherImage} alt="" width={50} className="img" />
+                <p className="w-message">{weatherMessage}</p>
+              </div>
+              <p className="humid">Humidity:{humidity}%</p>
             </div>
-            <img src={weatherImage} alt="" width={80} className="img" />
           </div>
-          <div className="loc">
-            <p>{name}</p>
-            <p className="country">{country}</p>
+
+          <div className="notes">
+            {Tempz > 33 && weatherMessage === "clear"
+              ? "please stay indoors to avoid heatstroke"
+              : ""}
+            {main === "Clouds" || "Rainy" ? note2 : ""}
+            {main === "Mist" || "Haze" ? note3 : ""}
           </div>
         </div>
       );
     } else {
-      return <p>vacant</p>;
+      return <p>Type a City</p>;
     }
   };
   return (
