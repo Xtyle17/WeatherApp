@@ -1,0 +1,13 @@
+@import "../../variables/variables.scss";
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: $titlesize;
+}
+form button {
+  margin-left: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+}

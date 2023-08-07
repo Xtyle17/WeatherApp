@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-
-import "./App.css";
+import "./styles/style.css";
 
 function App() {
   const api_key = import.meta.env.VITE_WEATHER_API_KEY;
   const [city, setCity] = useState("");
-
   const [weather, setWeather] = useState([]);
   const [background, setBackground] = useState("");
 
@@ -22,7 +20,7 @@ function App() {
           weatherBckground = "../src/assets/cloudy.png";
           break;
         case "Rain":
-          weatherBckground = "../src/assets/cloudy.png";
+          weatherBckground = "../src/assets/rainy-bkgrnd.jpg";
           break;
         default:
           weatherBckground = "../src/assets/cloudy.png";
@@ -40,6 +38,7 @@ function App() {
         const data = await respo.json();
 
         setWeather(data);
+        console.log(data);
         setCity("");
       } catch (err) {
         console.log(err);
@@ -53,8 +52,8 @@ function App() {
 
   const Forms = ({ city, setCity }) => {
     return (
-      <div>
-        <div>weather app</div>
+      <div className="form">
+        <div className="App-title">WEATHER APP</div>
         <form
           required
           onSubmit={(e) => {
@@ -64,6 +63,7 @@ function App() {
             autoFocus
             value={city}
             type="text"
+            placeholder="type city here"
             onChange={(e) => setCity(e.target.value)}
           />
           <button type="submit">submit</button>
@@ -73,7 +73,8 @@ function App() {
   };
   const WeatherData = ({ weather }) => {
     if (weather.main) {
-      const { temp, feels_like } = weather.main;
+      const { temp, feels_like, humidity } = weather.main;
+      const name = weather.name;
       const { country } = weather.sys;
       const { main } = weather.weather[0];
       const Temp = (temp - 273.15).toFixed(2);
@@ -87,25 +88,35 @@ function App() {
           weatherImage = "../3032746.png";
           break;
         case "Clouds":
-          weatherMessage = "clody";
-          weatherImage = "iasssdasd";
+          weatherMessage = "cloudy";
+          weatherImage = "../src/assets/logo/clouded.png";
           break;
         case "Rain":
           weatherMessage = "rainy";
-          weatherImage = "iasssdasd";
+          weatherImage = "../src/assets/logo/rain.png";
           break;
+        default:
+          weatherMessage = "not in the switch-case";
       }
 
       return (
-        <>
-          <p>TEMP:{Temp}°C</p>
-          <p>Feels like:{Tempz}°C</p>
-          <p>
-            {weatherMessage}
-            <img src={weatherImage} alt="" width={80} />
-          </p>
-          <p>{country}</p>
-        </>
+        <div className="data-wrapper">
+          <div className="weather-data">
+            <div className="rw-1">
+              <p className="temp">TEMP:{Temp}°C</p>
+              <p className="feels-temp">Feels like:{Tempz}°C</p>
+            </div>
+            <div className="rw-2">
+              <p className="humid"> humidity:{humidity}%</p>
+              <p className="w-message">{weatherMessage}</p>
+            </div>
+            <img src={weatherImage} alt="" width={80} className="img" />
+          </div>
+          <div className="loc">
+            <p>{name}</p>
+            <p className="country">{country}</p>
+          </div>
+        </div>
       );
     } else {
       return <p>vacant</p>;

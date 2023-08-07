@@ -1,0 +1,24 @@
+@import "../styles/sub-style/forms.css";
+.container {
+  padding-top: 20px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+#root,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    background-size: contain;
+  }
+}/*# sourceMappingURL=style.css.map */
